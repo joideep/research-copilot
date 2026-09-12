@@ -1,0 +1,10 @@
+[
+  {
+    "query": "What is the transformer architecture?",
+    "expected_source_contains": "attention"
+  },
+  {
+    "query": "How does BM25 scoring work?",
+    "expected_source_contains": "bm25"
+  }
+]
