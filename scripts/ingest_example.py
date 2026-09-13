@@ -7,6 +7,9 @@ Usage:
 """
 import argparse
 import sys
+import os
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from app.ingestion.loaders import load_pdf, load_url, load_arxiv
 from app.ingestion.chunker import chunk_document

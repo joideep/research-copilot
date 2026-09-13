@@ -26,9 +26,9 @@ def get_memory() -> MemoryTracker:
 
 def search_library(query: str, top_k: int = 6) -> dict:
     """Search the user's ingested library with hybrid dense+sparse search."""
+    top_k = int(top_k)
     hits = get_searcher().search(query, top_k=top_k)
     titles = list({h["metadata"]["title"] for h in hits})
-
     get_memory().record_query(query, titles)
     related = get_memory().related_past_reads(titles)
 
@@ -49,15 +49,18 @@ def search_library(query: str, top_k: int = 6) -> dict:
 def search_web(query: str) -> dict:
     """Search the live web for recent papers/articles not in the local library.
 
-    NOTE: this is a stub — plug in a real search API (e.g. Anthropic's web
-    search tool, Serper, Tavily, or the arXiv API for paper-specific search)
-    before relying on this in production. Left explicit rather than faked so
-    you don't get silently wrong results.
+    NOTE: this is a stub — plug in a real search API (e.g. Tavily, Serper,
+    or the arXiv API for paper-specific search) before relying on this in
+    production. Returns a clear message instead of raising so the agent can
+    tell the user it isn't wired up yet, rather than crashing.
     """
-    raise NotImplementedError(
-        "Wire this up to a real search provider (arXiv API for papers, or "
-        "Tavily/Serper for general web search). See README for suggestions."
-    )
+    return {
+        "error": (
+            "Web search isn't connected yet. This tool is a placeholder — "
+            "hook it up to a real search provider (e.g. Tavily, Serper, or "
+            "the arXiv API) to enable it."
+        )
+    }
 
 
 def library_summary() -> dict:
